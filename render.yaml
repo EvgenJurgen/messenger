@@ -31,7 +31,7 @@ services:
       - key: DB_HOST
         fromDatabase:
           name: mock-db
-          property: hostname
+          property: host
       - key: DB_PORT
         fromDatabase:
           name: mock-db
