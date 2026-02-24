@@ -1,0 +1,57 @@
+# Render Blueprint: backend + PostgreSQL (бесплатный тариф)
+# https://render.com/docs/blueprint-spec
+# 1. Залейте проект в GitHub/GitLab и подключите репозиторий к Render.
+# 2. В Dashboard: New → Blueprint → выберите этот репозиторий (render.yaml в корне).
+# 3. После деплоя создайте фронт на Vercel и укажите VITE_API_URL = URL бэкенда (например https://mock-backend.onrender.com).
+
+services:
+  - type: pserv
+    name: mock-backend
+    runtime: node
+    region: frankfurt
+    plan: free
+
+    # Корень репозитория — backend в подпапке
+    rootDir: backend
+
+    buildCommand: |
+      npm ci
+      npm run build
+      NODE_ENV=development npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./data-source.ts
+
+    startCommand: npm run start:prod
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: mock-db
+          property: hostname
+      - key: DB_PORT
+        fromDatabase:
+          name: mock-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: mock-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mock-db
+          property: password
+      - key: DB_DATABASE
+        fromDatabase:
+          name: mock-db
+          property: database
+
+databases:
+  - name: mock-db
+    plan: free
+    region: frankfurt
+    databaseName: mock_db
+    user: mock_user

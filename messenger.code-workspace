@@ -1,0 +1,76 @@
+{
+  "folders": [
+    {
+      "name": "Backend (NestJS)",
+      "path": "backend"
+    },
+    {
+      "name": "Frontend (React)",
+      "path": "frontend"
+    }
+  ],
+  "launch":{"version":"0.2.0","configurations":[{"name":"BE: Backend (NestJS)","type":"node","request":"launch","runtimeExecutable":"npm","runtimeArgs":["run","start:dev"],"cwd":"${workspaceFolder:Backend (NestJS)}","console":"integratedTerminal","preLaunchTask":"DB: PostgreSQL + pgAdmin"},{"name":"FE: Frontend (Vite)","type":"node","request":"launch","runtimeExecutable":"npm","runtimeArgs":["run","dev"],"cwd":"${workspaceFolder:Frontend (React)}","console":"integratedTerminal"},{"name":"BE: быстрый запуск (без отладчика)","type":"node","request":"launch","runtimeExecutable":"node","runtimeArgs":["run-without-inspect.js"],"cwd":"${workspaceFolder:Backend (NestJS)}","console":"integratedTerminal","preLaunchTask":"DB: PostgreSQL + pgAdmin"},{"name":"FE: быстрый запуск (без отладчика)","type":"node","request":"launch","runtimeExecutable":"node","runtimeArgs":["run-without-inspect.js"],"cwd":"${workspaceFolder:Frontend (React)}","console":"integratedTerminal"}],"compounds":[{"name":"FE + BE","configurations":["BE: Backend (NestJS)","FE: Frontend (Vite)"]},{"name":"FE + BE (быстрый запуск)","configurations":["BE: быстрый запуск (без отладчика)","FE: быстрый запуск (без отладчика)"]}]},"tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "DB: PostgreSQL + pgAdmin",
+        "type": "shell",
+        "command": "docker compose up postgres pgadmin -d",
+        "options": {
+          "cwd": "${workspaceFolder:Backend (NestJS)}/.."
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "group": "db"
+        }
+      },
+      {
+        "label": "Backend: запуск сервера",
+        "type": "shell",
+        "command": "npm run start:dev",
+        "options": {
+          "cwd": "${workspaceFolder:Backend (NestJS)}",
+          "env": {
+            "PORT": "3000",
+            "NODE_OPTIONS": ""
+          }
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "group": "run"
+        }
+      },
+      {
+        "label": "Frontend: запуск клиента",
+        "type": "shell",
+        "command": "npm run dev",
+        "options": {
+          "cwd": "${workspaceFolder:Frontend (React)}",
+          "env": {
+            "NODE_OPTIONS": ""
+          }
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "group": "run"
+        }
+      },
+      {
+        "label": "Запуск: сервер + клиент",
+        "dependsOn": ["Backend: запуск сервера", "Frontend: запуск клиента"],
+        "dependsOrder": "parallel",
+        "problemMatcher": [],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
+}

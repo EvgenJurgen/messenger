@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  /* Semantic palette: used as bg-primary, text-foreground-primary, etc. */
+  --color-primary: #ffffff;
+  --color-secondary: #f4f4f5;
+  --color-foreground-primary: #111827;
+  --color-foreground-secondary: #6b7280;
+  --color-muted: #6b7280;
+  --color-error: #ef4444;
+  --color-border: #e5e7eb;
+  --color-accent: #229ed9;
+  --color-accent-hover: #1d8bc4;
+}
+
+@layer base {
+  html {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply min-h-screen antialiased;
+  }
+}
+
+/* Light (default) — values set in @theme above */
+.palette-light {
+  --color-primary: #ffffff;
+  --color-secondary: #f4f4f5;
+  --color-foreground-primary: #111827;
+  --color-foreground-secondary: #6b7280;
+  --color-muted: #6b7280;
+  --color-error: #ef4444;
+  --color-border: #e5e7eb;
+  --color-accent: #229ed9;
+  --color-accent-hover: #1d8bc4;
+}
+
+/* Dark — from Telegram profile screen */
+.palette-dark {
+  --color-primary: #161b22;
+  --color-secondary: #1e2228;
+  --color-foreground-primary: #f0f0f0;
+  --color-foreground-secondary: #a0a0a0;
+  --color-muted: #a0a0a0;
+  --color-error: #f87171;
+  --color-border: #2c2e33;
+  --color-accent: #7d44d4;
+  --color-accent-hover: #8a57df;
+}
+
+/* Chat message input: hide scrollbar until at max height with overflow */
+.chat-input-scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chat-input-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+.chat-input-scroll-visible {
+  scrollbar-width: thin;
+  -ms-overflow-style: auto;
+}
+.chat-input-scroll-visible::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+
+/* Local video in call: mirror so it feels natural */
+.mirror {
+  transform: scaleX(-1);
+}
